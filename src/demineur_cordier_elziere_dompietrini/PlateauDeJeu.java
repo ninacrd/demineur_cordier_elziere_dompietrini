@@ -38,7 +38,97 @@ public class PlateauDeJeu extends javax.swing.JPanel {
      */
     public PlateauDeJeu() {
         initComponents();
-        
+        initialisation();
+    }
+
+    /*initialisation de la grille avec positionnement des mines*/
+    private void initialisation() {
+
+        int cellule;
+
+        var random = new Random();
+        fin_jeu = false; /*tant que le joueur n'a pas gagné*/
+        mines_restantes = NB_MINES;
+
+        nb_cellules = NB_LIG * NB_COL; /*tableau en une dimension au départ : précisé dans le doc word*/
+        tableau = new int[nb_cellules];
+
+        for (int i = 0; i < nb_cellules; i++) {
+            tableau[i] = CELL_COUV; 
+        }
+
+        message.setText(Integer.toString(mines_restantes));
+
+        int i = 0;
+
+        while (i < NB_MINES) {
+
+            int position = random.nextInt(nb_cellules);
+
+            if ((position < nb_cellules) && (tableau[position] != CELL_MINE_COUV)) { /*si on a pas de mine couverte et qu'on est dans la grille*/
+
+                int colonne = position % NB_COL; /*permet de choisir la colonne courante*/
+                tableau[position] = CELL_MINE_COUV;
+                i++;
+
+                if (colonne > 0) {
+                    cellule = position - 1 - NB_COL; 
+                    if (cellule >= 0) {
+                        if (tableau[cellule] != CELL_MINE_COUV) {
+                            tableau[cellule] += 1; /*on affecte la valeur sur la diagonale : en haut à gauche*/
+                        }
+                    }
+                    cellule = position - 1;
+                    if (cellule >= 0) {
+                        if (tableau[cellule] != CELL_MINE_COUV) {
+                            tableau[cellule] += 1; /*a gauche*/
+                        }
+                    }
+
+                    cellule = position + NB_COL - 1; /*diagonale : en bas à gauche*/
+                    if (cellule < nb_cellules) {
+                        if (tableau[cellule] != CELL_MINE_COUV) {
+                            tableau[cellule] += 1;
+                        }
+                    }
+                }
+
+                cellule = position - NB_COL; /*au dessus*/
+                if (cellule >= 0) {
+                    if (tableau[cellule] != CELL_MINE_COUV) {
+                        tableau[cellule] += 1;
+                    }
+                }
+
+                cellule = position + NB_COL; /*en dessous car on ajoute 30 ce qui nous place à la ligne du dessous car une dimension*/
+                if (cellule < nb_cellules) {
+                    if (tableau[cellule] != CELL_MINE_COUV) {
+                        tableau[cellule] += 1;
+                    }
+                }
+
+                if (colonne < (NB_COL - 1)) { /*diagonale : en haut à droite*/
+                    cellule = position - NB_COL + 1;
+                    if (cellule >= 0) {
+                        if (tableau[cellule] != CELL_MINE_COUV) {
+                            tableau[cellule] += 1;
+                        }
+                    }
+                    cellule = position + NB_COL + 1; /*diagonale : en bas à droite*/
+                    if (cellule < nb_cellules) {
+                        if (tableau[cellule] != CELL_MINE_COUV) {
+                            tableau[cellule] += 1;
+                        }
+                    }
+                    cellule = position + 1; /*en bas*/
+                    if (cellule < nb_cellules) {
+                        if (tableau[cellule] != CELL_MINE_COUV) {
+                            tableau[cellule] += 1;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
