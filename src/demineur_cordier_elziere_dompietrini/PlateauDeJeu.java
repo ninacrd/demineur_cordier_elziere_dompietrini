@@ -15,14 +15,29 @@ import javax.swing.JLabel;
 public class PlateauDeJeu extends javax.swing.JPanel {
 
     /*initialisation des constantes*/
+    
+    private final int NUM_IMAGE = 13; /*on a 13 images comprenant le drapeau, mines, numéros ...*/
+    private final int TAILLE_CELL = 15; /*images de 15 pixels*/
+    
     private final int CELL_COUV = 10; /*état de la case initiale : couverte*/
     private final int CELL_MINE = 9; /*état de la case s'il y a une mine*/
     private final int CELL_MINE_COUV = CELL_MINE + CELL_COUV; /*si la cellule est minée et couverte*/
+    private final int CELL_VIDE = 0; /*état de la case sans bombe*/
+    private final int CELL_MARQUAGE = 10; /*si on retire le drapeau qu'on avait placé : simple case couverte*/
+    private final int CELL_MINE_DRAPEAU = CELL_MINE_COUV + CELL_MARQUAGE;
+    
+    private final int IMG_MINE = 9;
+    private final int IMG_COUVERTE = 10;
+    private final int IMG_DRAPEAU = 11;
+    private final int IMG_MAUVAIS_PLACEMENT = 12; /*si le joueur met un drapeau laà où il n'y a pas de bombe, cette image apparaitra quand il aura perdu*/
 
 
     private final int NB_MINES = 50; /*nombre de mines initialisé à 50*/
     private final int NB_LIG = 16; /*16 lignes*/
     private final int NB_COL = 30; /*30 colonnes*/
+    
+    private final int LARGEUR = NB_COL * TAILLE_CELL + 1; /*pour que le Panel s'adapte*/
+    private final int HAUTEUR = NB_LIG * TAILLE_CELL + 1;
 
 
     /*ajout de propriétés*/
