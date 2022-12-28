@@ -14,7 +14,11 @@ public class interfaceJeu extends javax.swing.JFrame {
      * Creates new form interfaceJeu
      */
     public interfaceJeu() {
-        initComponents();
+        //initComponents();
+        add(new PlateauDeJeu());
+        setTitle("DEMINEUR");
+        setResizable(false);
+        pack();
     }
 
     /**
