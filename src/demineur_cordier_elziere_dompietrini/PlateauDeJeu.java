@@ -89,10 +89,10 @@ public class PlateauDeJeu extends javax.swing.JPanel {
             var chemin = "src/images/" + i + ".png";
             img[i] = (new ImageIcon(chemin)).getImage();
         }
-        //addMouseListener(new gestion_clic());
-        //partie();
-        addMouseListener(new gestion_clic_2D());
-        partie2D();
+        addMouseListener(new gestion_clic());
+        partie();
+        //addMouseListener(new gestion_clic_2D());
+        //partie2D();
     }
 
     /*initialisation de la grille avec positionnement des mines*/
@@ -484,11 +484,11 @@ public class PlateauDeJeu extends javax.swing.JPanel {
 
         int nb_cell_couverte = 0;
 
-        for (int i = 0; i < NB_LIG; i++) {
+        for (int x = 0; x < NB_COL; x++) {
 
-            for (int j = 0; j < NB_COL; j++) {
+            for (int y = 0; y < NB_LIG; y++) {
 
-                int cell = tableau[(i * NB_COL) + j];
+                int cell = tableau2D[x][y];
 
                 if (en_jeu && cell == CELL_MINE) {
 
@@ -517,8 +517,8 @@ public class PlateauDeJeu extends javax.swing.JPanel {
                     }
                 }
 
-                g.drawImage(img[cell], (j * TAILLE_CELL),
-                        (i * TAILLE_CELL), this);
+                g.drawImage(img[cell], (y * TAILLE_CELL),
+                        (x * TAILLE_CELL), this);
             }
         }
 
@@ -619,11 +619,8 @@ public class PlateauDeJeu extends javax.swing.JPanel {
         public void mousePressed(MouseEvent e) {
             /*e est l'évènement : clique gauche / clique droit*/
 
-            int x = e.getX();
-            int y = e.getY();
-
-            int cell_col = x / TAILLE_CELL;
-            int cell_lig = y / TAILLE_CELL;
+            int x = e.getX() / TAILLE_CELL; /*divise par la taille de la cellule pour savoir dans quelle case on est : en fonction des pixels*/
+            int y = e.getY() / TAILLE_CELL;
 
             boolean rafraichir = false;
             /*pour rafraichir l'interface pour afficher les interactions*/
@@ -636,18 +633,18 @@ public class PlateauDeJeu extends javax.swing.JPanel {
                 repaint();
             }
 
-            if ((x < NB_COL * TAILLE_CELL) && (y < NB_LIG * TAILLE_CELL)) {
+            if (x < NB_COL && y < NB_LIG) {
 
                 if (e.getButton() == MouseEvent.BUTTON3) {
 
-                    if (tableau[(cell_lig * NB_COL) + cell_col] > CELL_MINE) {
+                    if (tableau2D[x][y] > CELL_MINE) {
 
                         rafraichir = true;
 
-                        if (tableau[(cell_lig * NB_COL) + cell_col] <= CELL_MINE_COUV) {
+                        if (tableau2D[x][y] <= CELL_MINE_COUV) {
 
                             if (mines_restantes > 0) {
-                                tableau[(cell_lig * NB_COL) + cell_col] += CELL_MARQUAGE;
+                                tableau2D[x][y] += CELL_MARQUAGE;
                                 mines_restantes--;
                                 String msg = Integer.toString(mines_restantes);
                                 message.setText(msg);
@@ -656,7 +653,7 @@ public class PlateauDeJeu extends javax.swing.JPanel {
                             }
                         } else {
 
-                            tableau[(cell_lig * NB_COL) + cell_col] -= CELL_MARQUAGE;
+                            tableau2D[x][y] -= CELL_MARQUAGE;
                             mines_restantes++;
                             String msg = Integer.toString(mines_restantes);
                             message.setText(msg);
@@ -665,23 +662,22 @@ public class PlateauDeJeu extends javax.swing.JPanel {
 
                 } else {
 
-                    if (tableau[(cell_lig * NB_COL) + cell_col] > CELL_MINE_COUV) {
+                    if (tableau2D[x][y] > CELL_MINE_COUV) {
 
                         return;
                     }
 
-                    if ((tableau[(cell_lig * NB_COL) + cell_col] > CELL_MINE)
-                            && (tableau[(cell_lig * NB_COL) + cell_col] < CELL_MINE_DRAPEAU)) {
+                    if ((tableau2D[x][y] > CELL_MINE) && (tableau2D[x][y] < CELL_MINE_DRAPEAU)) {
 
-                        tableau[(cell_lig * NB_COL) + cell_col] -= CELL_COUV;
+                        tableau2D[x][y] -= CELL_COUV;
                         rafraichir = true;
 
-                        if (tableau[(cell_lig * NB_COL) + cell_col] == CELL_MINE) {
+                        if (tableau2D[x][y] == CELL_MINE) {
                             en_jeu = false;
                         }
 
-                        if (tableau[(cell_lig * NB_COL) + cell_col] == CELL_VIDE) {
-                            decouvrir_cases_non_minees_2D((cell_lig * NB_COL) + cell_col);
+                        if (tableau2D[x][y] == CELL_VIDE) {
+                            decouvrir_cases_non_minees_2D(x, y);
                         }
                     }
                 }
