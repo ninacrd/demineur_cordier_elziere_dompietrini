@@ -56,7 +56,7 @@
     </Component>
     <Container class="demineur_cordier_elziere_dompietrini.PlateauDeJeu" name="plateau">
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="plateau.setmessage(message);"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="plateau.setmessage(message);&#xa;plateau.partie();"/>
       </AuxValues>
 
       <Layout>

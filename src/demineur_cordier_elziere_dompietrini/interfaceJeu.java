@@ -38,6 +38,7 @@ public class interfaceJeu extends javax.swing.JFrame {
         message.setText(" ");
 
         plateau.setmessage(message);
+        plateau.partie();
 
         javax.swing.GroupLayout plateauLayout = new javax.swing.GroupLayout(plateau);
         plateau.setLayout(plateauLayout);

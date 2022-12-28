@@ -96,12 +96,12 @@ public class PlateauDeJeu extends javax.swing.JPanel {
         //addMouseListener(new gestion_clic());
         //partie();
         addMouseListener(new gestion_clic());
-        partie();
+        //partie();
     }
 
     /*initialisation de la grille avec positionnement des mines*/
 
-    private void partie() {
+    public void partie() {
         /*on fait en 2D*/
 
         int cellule;
@@ -118,7 +118,9 @@ public class PlateauDeJeu extends javax.swing.JPanel {
                 tableau[x][y] = CELL_COUV;
             }
         }
-
+        
+        message.setText("Mines restantes : " + Integer.toString(mines_restantes) + "   " + "Vies restantes : " + NB_VIE);
+        
         int i = 0;
 
         while (i < NB_MINES) {
