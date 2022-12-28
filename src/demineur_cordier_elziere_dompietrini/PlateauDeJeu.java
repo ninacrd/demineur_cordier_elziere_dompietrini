@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
+import java.util.Scanner;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -44,7 +45,7 @@ public class PlateauDeJeu extends javax.swing.JPanel {
     private final int IMG_MAUVAIS_PLACEMENT = 12;
     /*si le joueur met un drapeau là où il n'y a pas de bombe, cette image apparaitra quand il aura perdu*/
 
-    private final int NB_MINES = 50;
+    private int NB_MINES ;
     /*nombre de mines initialisé à 50*/
     private final int NB_LIG = 16;
     /*16 lignes*/
@@ -105,11 +106,18 @@ public class PlateauDeJeu extends javax.swing.JPanel {
         /*on fait en 2D*/
         NB_VIE = 3;
         int cellule;
+        
+        Scanner saisie_joueur = new Scanner(System.in);
+	System.out.println("Combien de mines voulez-vous placer ?");
+	int NB_MINES = saisie_joueur.nextInt();
+        
 
         var random = new Random();
         en_jeu = true;
         /*tant que le joueur n'a pas gagné*/
         mines_restantes = NB_MINES;
+        
+        
 
         for (int x = 0; x < NB_COL; x++) {
             /*on parcourt les colonnes*/
@@ -118,11 +126,12 @@ public class PlateauDeJeu extends javax.swing.JPanel {
                 tableau[x][y] = CELL_COUV;
             }
         }
+         
         
         message.setText("Mines restantes : " + Integer.toString(mines_restantes) + "   " + "Vies restantes : " + NB_VIE);
         
         int i = 0;
-
+        
         while (i < NB_MINES) {
 
             int x = random.nextInt(NB_COL);
@@ -298,16 +307,16 @@ public class PlateauDeJeu extends javax.swing.JPanel {
                     } 
                 }
 
-                if (!en_jeu) {
+                if (!en_jeu) { /*si on a finit le jeu*/
 
                     if (cell == CELL_MINE_COUV) {
-                        cell = IMG_MINE;
+                        cell = IMG_MINE; /*on affiche là où il y avait des mines*/
                     } else if (cell == CELL_MINE_DRAPEAU) {
-                        cell = IMG_DRAPEAU;
+                        cell = IMG_DRAPEAU; 
                     } else if (cell > CELL_MINE_COUV) {
-                        cell = IMG_MAUVAIS_PLACEMENT;
+                        cell = IMG_MAUVAIS_PLACEMENT; /*si on a placé le drapeau dans une case sans mine*/
                     } else if (cell > CELL_MINE) {
-                        cell = IMG_COUVERTE;
+                        cell = IMG_COUVERTE; /*là où il n'y a pas de mines on laisse l'image couverte*/
                     }
 
                 } else {

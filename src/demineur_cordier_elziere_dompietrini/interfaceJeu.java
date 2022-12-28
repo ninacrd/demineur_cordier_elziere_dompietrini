@@ -18,6 +18,7 @@ public class interfaceJeu extends javax.swing.JFrame {
     public interfaceJeu() {
         initComponents();
         //add(new PlateauDeJeu());
+        
     }
 
     /**
