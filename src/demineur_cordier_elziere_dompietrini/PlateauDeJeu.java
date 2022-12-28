@@ -24,6 +24,7 @@ public class PlateauDeJeu extends javax.swing.JPanel {
     /*on a 13 images comprenant le drapeau, mines, numéros ...*/
     private final int TAILLE_CELL = 15;
     /*images de 15 pixels*/
+    private int NB_VIE = 3; /*le joueur a 3 vies*/
 
     private final int CELL_COUV = 10;
     /*état de la case initiale : couverte*/
@@ -56,8 +57,7 @@ public class PlateauDeJeu extends javax.swing.JPanel {
 
 
     /*ajout de propriétés*/
-    private int[] tableau;
-    private int[][] tableau2D = new int[NB_COL][NB_LIG];
+    private int[][] tableau = new int[NB_COL][NB_LIG];
     /*initialisation du tableau 2D à 30 colonnes et 16 lignes soit x, y*/
     private boolean en_jeu;
     /*permettra de voir si le joueur a gagné ou non*/
@@ -95,113 +95,13 @@ public class PlateauDeJeu extends javax.swing.JPanel {
         }
         //addMouseListener(new gestion_clic());
         //partie();
-        addMouseListener(new gestion_clic_2D());
-        partie2D();
+        addMouseListener(new gestion_clic());
+        partie();
     }
 
     /*initialisation de la grille avec positionnement des mines*/
+
     private void partie() {
-
-        int cellule;
-
-        var random = new Random();
-        en_jeu = true;
-        /*tant que le joueur n'a pas gagné*/
-        mines_restantes = NB_MINES;
-
-        nb_cellules = NB_LIG * NB_COL;
-        /*tableau en une dimension au départ : précisé dans le doc word*/
-        tableau = new int[nb_cellules];
-
-        for (int i = 0; i < nb_cellules; i++) {
-            tableau[i] = CELL_COUV;
-        }
-
-        message.setText(Integer.toString(mines_restantes));
-
-        int i = 0;
-
-        while (i < NB_MINES) {
-
-            int position = random.nextInt(nb_cellules);
-
-            if ((position < nb_cellules) && (tableau[position] != CELL_MINE_COUV)) {
-                /*si on a pas de mine couverte et qu'on est dans la grille*/
-
-                int colonne = position % NB_COL;
-                /*permet de choisir la colonne courante*/
-                tableau[position] = CELL_MINE_COUV;
-                i++;
-
-                if (colonne > 0) {
-                    cellule = position - 1 - NB_COL;
-                    if (cellule >= 0) {
-                        if (tableau[cellule] != CELL_MINE_COUV) {
-                            tableau[cellule] += 1;
-                            /*on affecte la valeur sur la diagonale : en haut à gauche*/
-                        }
-                    }
-                    cellule = position - 1;
-                    if (cellule >= 0) {
-                        if (tableau[cellule] != CELL_MINE_COUV) {
-                            tableau[cellule] += 1;
-                            /*a gauche*/
-                        }
-                    }
-
-                    cellule = position + NB_COL - 1;
-                    /*diagonale : en bas à gauche*/
-                    if (cellule < nb_cellules) {
-                        if (tableau[cellule] != CELL_MINE_COUV) {
-                            tableau[cellule] += 1;
-                        }
-                    }
-                }
-
-                cellule = position - NB_COL;
-                /*au dessus*/
-                if (cellule >= 0) {
-                    if (tableau[cellule] != CELL_MINE_COUV) {
-                        tableau[cellule] += 1;
-                    }
-                }
-
-                cellule = position + NB_COL;
-                /*en dessous car on ajoute 30 ce qui nous place à la ligne du dessous car une dimension*/
-                if (cellule < nb_cellules) {
-                    if (tableau[cellule] != CELL_MINE_COUV) {
-                        tableau[cellule] += 1;
-                    }
-                }
-
-                if (colonne < (NB_COL - 1)) {
-                    /*diagonale : en haut à droite*/
-                    cellule = position - NB_COL + 1;
-                    if (cellule >= 0) {
-                        if (tableau[cellule] != CELL_MINE_COUV) {
-                            tableau[cellule] += 1;
-                        }
-                    }
-                    cellule = position + NB_COL + 1;
-                    /*diagonale : en bas à droite*/
-                    if (cellule < nb_cellules) {
-                        if (tableau[cellule] != CELL_MINE_COUV) {
-                            tableau[cellule] += 1;
-                        }
-                    }
-                    cellule = position + 1;
-                    /*à droite*/
-                    if (cellule < nb_cellules) {
-                        if (tableau[cellule] != CELL_MINE_COUV) {
-                            tableau[cellule] += 1;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private void partie2D() {
         /*on fait en 2D*/
 
         int cellule;
@@ -215,11 +115,9 @@ public class PlateauDeJeu extends javax.swing.JPanel {
             /*on parcourt les colonnes*/
             for (int y = 0; y < NB_LIG; y++) {
                 /*on parcourt les lignes*/
-                tableau2D[x][y] = CELL_COUV;
+                tableau[x][y] = CELL_COUV;
             }
         }
-
-        message.setText(Integer.toString(mines_restantes));
 
         int i = 0;
 
@@ -228,203 +126,101 @@ public class PlateauDeJeu extends javax.swing.JPanel {
             int x = random.nextInt(NB_COL);
             int y = random.nextInt(NB_LIG);
 
-            if (tableau2D[x][y] != CELL_MINE_COUV) {
+            if (tableau[x][y] != CELL_MINE_COUV) {
                 /*si on a pas de mine couverte et qu'on est dans la grille*/
 
-                tableau2D[x][y] = CELL_MINE_COUV;
+                tableau[x][y] = CELL_MINE_COUV;
                 i++;
 
                 if (x > 0) {
                     if (y > 0) {
                         /*car traitement inutile si on est déjà tout à gauche*/
-                        if (tableau2D[x - 1][y - 1] != CELL_MINE_COUV) {
-                            tableau2D[x - 1][y - 1] += 1;
+                        if (tableau[x - 1][y - 1] != CELL_MINE_COUV) {
+                            tableau[x - 1][y - 1] += 1;
                             /*on affecte la valeur sur la diagonale : en haut à gauche*/
                         }
                     }
 
-                    if (tableau2D[x - 1][y] != CELL_MINE_COUV) {
-                        tableau2D[x - 1][y] += 1;
+                    if (tableau[x - 1][y] != CELL_MINE_COUV) {
+                        tableau[x - 1][y] += 1;
                         /*a gauche*/
                     }
 
                     /*diagonale : en bas à gauche*/
                     if (y+1 < NB_LIG) {
                         /*on vérifie qu'on ne sort pas du tableau*/
-                        if (tableau2D[x - 1][y + 1] != CELL_MINE_COUV) {
-                            tableau2D[x - 1][y + 1] += 1;
+                        if (tableau[x - 1][y + 1] != CELL_MINE_COUV) {
+                            tableau[x - 1][y + 1] += 1;
                         }
                     }
                 }
 
                 /*au dessus*/
                 if (y > 0) {
-                    if (tableau2D[x][y - 1] != CELL_MINE_COUV) {
-                        tableau2D[x][y - 1] += 1;
+                    if (tableau[x][y - 1] != CELL_MINE_COUV) {
+                        tableau[x][y - 1] += 1;
                     }
                 }
 
                 /*en dessous car on ajoute 30 ce qui nous place à la ligne du dessous car une dimension*/
                 if (y+1 < NB_LIG) {
-                    if (tableau2D[x][y + 1] != CELL_MINE_COUV) {
-                        tableau2D[x][y + 1] += 1;
+                    if (tableau[x][y + 1] != CELL_MINE_COUV) {
+                        tableau[x][y + 1] += 1;
                     }
                 }
 
                 if (x+1 < NB_COL) {
                     /*diagonale : en haut à droite*/
                     if (y > 0) {
-                        if (tableau2D[x + 1][y - 1] != CELL_MINE_COUV) {
-                            tableau2D[x + 1][y - 1] += 1;
+                        if (tableau[x + 1][y - 1] != CELL_MINE_COUV) {
+                            tableau[x + 1][y - 1] += 1;
                         }
                     }
                     /*diagonale : en bas à droite*/
                     if (y+1 < NB_LIG) {
-                        if (tableau2D[x + 1][y + 1] != CELL_MINE_COUV) {
-                            tableau2D[x + 1][y + 1] += 1;
+                        if (tableau[x + 1][y + 1] != CELL_MINE_COUV) {
+                            tableau[x + 1][y + 1] += 1;
                         }
                     }
                     /*à droite*/
-                    if (tableau2D[x + 1][y] != CELL_MINE_COUV) {
-                        tableau2D[x + 1][y] += 1;
+                    if (tableau[x + 1][y] != CELL_MINE_COUV) {
+                        tableau[x + 1][y] += 1;
                     }
                 }
             }
         }
-    }
-
-    private void decouvrir_cases_non_minees(int j) {
-        /*permettra de découvrir les cases adjacentes non minées*/
-
-        int colonne = j % NB_COL;
-        int cellule;
-
-        if (colonne > 0) {
-            cellule = j - NB_COL - 1;
-            /*en haut à gauche*/
-            if (cellule >= 0) {
-                if (tableau[cellule] > CELL_MINE) {
-                    tableau[cellule] -= CELL_COUV;
-                    /*découvre la case*/
-                    if (tableau[cellule] == CELL_VIDE) {
-                        decouvrir_cases_non_minees(cellule);
-                        /*on répète le traitement pour la case qu'on vient de découvrir*/
-                    }
-                }
-            }
-
-            cellule = j - 1;
-            /*à gauche*/
-            if (cellule >= 0) {
-                if (tableau[cellule] > CELL_MINE) {
-                    tableau[cellule] -= CELL_COUV;
-                    if (tableau[cellule] == CELL_VIDE) {
-                        decouvrir_cases_non_minees(cellule);
-                    }
-                }
-            }
-
-            cellule = j + NB_COL - 1;
-            /*en bas à gauche*/
-            if (cellule < nb_cellules) {
-                if (tableau[cellule] > CELL_MINE) {
-                    tableau[cellule] -= CELL_COUV;
-                    if (tableau[cellule] == CELL_VIDE) {
-                        decouvrir_cases_non_minees(cellule);
-                    }
-                }
-            }
-        }
-
-        cellule = j - NB_COL;
-        /*en haut*/
-        if (cellule >= 0) {
-            if (tableau[cellule] > CELL_MINE) {
-                tableau[cellule] -= CELL_COUV;
-                if (tableau[cellule] == CELL_VIDE) {
-                    decouvrir_cases_non_minees(cellule);
-                }
-            }
-        }
-
-        cellule = j + NB_COL;
-        /*en bas*/
-        if (cellule < nb_cellules) {
-            if (tableau[cellule] > CELL_MINE) {
-                tableau[cellule] -= CELL_COUV;
-                if (tableau[cellule] == CELL_VIDE) {
-                    decouvrir_cases_non_minees(cellule);
-                }
-            }
-        }
-
-        if (colonne < (NB_COL - 1)) {
-            cellule = j - NB_COL + 1;
-            /*en haut à droite*/
-            if (cellule >= 0) {
-                if (tableau[cellule] > CELL_MINE) {
-                    tableau[cellule] -= CELL_COUV;
-                    if (tableau[cellule] == CELL_VIDE) {
-                        decouvrir_cases_non_minees(cellule);
-                    }
-                }
-            }
-
-            cellule = j + NB_COL + 1;
-            /*en bas à droite*/
-            if (cellule < nb_cellules) {
-                if (tableau[cellule] > CELL_MINE) {
-                    tableau[cellule] -= CELL_COUV;
-                    if (tableau[cellule] == CELL_VIDE) {
-                        decouvrir_cases_non_minees(cellule);
-                    }
-                }
-            }
-
-            cellule = j + 1;
-            /*à droite*/
-            if (cellule < nb_cellules) {
-                if (tableau[cellule] > CELL_MINE) {
-                    tableau[cellule] -= CELL_COUV;
-                    if (tableau[cellule] == CELL_VIDE) {
-                        decouvrir_cases_non_minees(cellule);
-                    }
-                }
-            }
-        }
-
     }
     
-    private void decouvrir_cases_non_minees_2D(int x, int y) {
+    private void decouvrir_cases_non_minees(int x, int y) {
         /*permettra de découvrir les cases adjacentes non minées*/
 
         if (x > 0) {
             /*en haut à gauche*/
             if (y > 0) {
-                if (tableau2D[x-1][y-1] > CELL_MINE) {
-                    tableau2D[x-1][y-1] -= CELL_COUV;
+                if (tableau[x-1][y-1] > CELL_MINE) {
+                    tableau[x-1][y-1] -= CELL_COUV;
                     /*découvre la case*/
-                    if (tableau2D[x-1][y-1] == CELL_VIDE) {
-                        decouvrir_cases_non_minees_2D(x-1, y-1);
+                    if (tableau[x-1][y-1] == CELL_VIDE) {
+                        decouvrir_cases_non_minees(x-1, y-1);
                         /*on répète le traitement pour la case qu'on vient de découvrir*/
                     }
                 }
             }
 
             /*à gauche*/
-                if (tableau2D[x-1][y] > CELL_MINE) {
-                    tableau2D[x-1][y] -= CELL_COUV;
-                    if (tableau2D[x-1][y] == CELL_VIDE) {
-                        decouvrir_cases_non_minees_2D(x-1, y);
+                if (tableau[x-1][y] > CELL_MINE) {
+                    tableau[x-1][y] -= CELL_COUV;
+                    if (tableau[x-1][y] == CELL_VIDE) {
+                        decouvrir_cases_non_minees(x-1, y);
                     }
                 }
             
             /*en bas à gauche*/
             if (y+1 < NB_LIG) {
-                if (tableau2D[x-1][y+1] > CELL_MINE) {
-                    tableau2D[x-1][y+1] -= CELL_COUV;
-                    if (tableau2D[x-1][y+1] == CELL_VIDE) {
-                        decouvrir_cases_non_minees_2D(x-1, y+1);
+                if (tableau[x-1][y+1] > CELL_MINE) {
+                    tableau[x-1][y+1] -= CELL_COUV;
+                    if (tableau[x-1][y+1] == CELL_VIDE) {
+                        decouvrir_cases_non_minees(x-1, y+1);
                     }
                 }
             }
@@ -432,20 +228,20 @@ public class PlateauDeJeu extends javax.swing.JPanel {
 
         /*en haut*/
         if (y > 0) {
-            if (tableau2D[x][y-1] > CELL_MINE) {
-                tableau2D[x][y-1] -= CELL_COUV;
-                if (tableau2D[x][y-1] == CELL_VIDE) {
-                    decouvrir_cases_non_minees_2D(x, y-1);
+            if (tableau[x][y-1] > CELL_MINE) {
+                tableau[x][y-1] -= CELL_COUV;
+                if (tableau[x][y-1] == CELL_VIDE) {
+                    decouvrir_cases_non_minees(x, y-1);
                 }
             }
         }
 
         /*en bas*/
         if (y+1 < NB_LIG) {
-            if (tableau2D[x][y+1] > CELL_MINE) {
-                tableau2D[x][y+1] -= CELL_COUV;
-                if (tableau2D[x][y+1] == CELL_VIDE) {
-                    decouvrir_cases_non_minees_2D(x, y+1);
+            if (tableau[x][y+1] > CELL_MINE) {
+                tableau[x][y+1] -= CELL_COUV;
+                if (tableau[x][y+1] == CELL_VIDE) {
+                    decouvrir_cases_non_minees(x, y+1);
                 }
             }
         }
@@ -453,29 +249,29 @@ public class PlateauDeJeu extends javax.swing.JPanel {
         if (x+1 < NB_COL) {
             /*en haut à droite*/
             if (y > 0) {
-                if (tableau2D[x+1][y-1] > CELL_MINE) {
-                    tableau2D[x+1][y-1] -= CELL_COUV;
-                    if (tableau2D[x+1][y-1] == CELL_VIDE) {
-                        decouvrir_cases_non_minees_2D(x+1, y-1);
+                if (tableau[x+1][y-1] > CELL_MINE) {
+                    tableau[x+1][y-1] -= CELL_COUV;
+                    if (tableau[x+1][y-1] == CELL_VIDE) {
+                        decouvrir_cases_non_minees(x+1, y-1);
                     }
                 }
             }
 
             /*en bas à droite*/
             if (y + 1 < NB_LIG) {
-                if (tableau2D[x+1][y+1] > CELL_MINE) {
-                    tableau2D[x+1][y+1] -= CELL_COUV;
-                    if (tableau2D[x+1][y+1] == CELL_VIDE) {
-                        decouvrir_cases_non_minees_2D(x+1,y+1);
+                if (tableau[x+1][y+1] > CELL_MINE) {
+                    tableau[x+1][y+1] -= CELL_COUV;
+                    if (tableau[x+1][y+1] == CELL_VIDE) {
+                        decouvrir_cases_non_minees(x+1,y+1);
                     }
                 }
             }
 
             /*à droite*/
-                if (tableau2D[x+1][y] > CELL_MINE) {
-                    tableau2D[x+1][y] -= CELL_COUV;
-                    if (tableau2D[x+1][y] == CELL_VIDE) {
-                        decouvrir_cases_non_minees_2D(x+1, y);
+                if (tableau[x+1][y] > CELL_MINE) {
+                    tableau[x+1][y] -= CELL_COUV;
+                    if (tableau[x+1][y] == CELL_VIDE) {
+                        decouvrir_cases_non_minees(x+1, y);
                     }
                 }
             
@@ -492,10 +288,12 @@ public class PlateauDeJeu extends javax.swing.JPanel {
 
             for (int y = 0; y < NB_LIG; y++) {
 
-                int cell = tableau2D[x][y];
-
+                int cell = tableau[x][y];
+                
+            if (NB_VIE == 0){
+                en_jeu = false;
+            }
                 if (en_jeu && cell == CELL_MINE) {
-
                     en_jeu = false;
                 }
 
@@ -543,86 +341,6 @@ public class PlateauDeJeu extends javax.swing.JPanel {
         public void mousePressed(MouseEvent e) {
             /*e est l'évènement : clique gauche / clique droit*/
 
-            int x = e.getX();
-            int y = e.getY();
-
-            int cell_col = x / TAILLE_CELL;
-            int cell_lig = y / TAILLE_CELL;
-
-            boolean rafraichir = false;
-            /*pour rafraichir l'interface pour afficher les interactions*/
-
-            if (!en_jeu) {
-                /*si le joueur a perdu on rejoue*/
-
-                //partie();
-                partie2D();
-                repaint();
-            }
-
-            if ((x < NB_COL * TAILLE_CELL) && (y < NB_LIG * TAILLE_CELL)) {
-
-                if (e.getButton() == MouseEvent.BUTTON3) {
-
-                    if (tableau[(cell_lig * NB_COL) + cell_col] > CELL_MINE) {
-
-                        rafraichir = true;
-
-                        if (tableau[(cell_lig * NB_COL) + cell_col] <= CELL_MINE_COUV) {
-
-                            if (mines_restantes > 0) {
-                                tableau[(cell_lig * NB_COL) + cell_col] += CELL_MARQUAGE;
-                                mines_restantes--;
-                                String msg = Integer.toString(mines_restantes);
-                                message.setText(msg);
-                            } else {
-                                message.setText("Tous les drapeaux ont été placés");
-                            }
-                        } else {
-
-                            tableau[(cell_lig * NB_COL) + cell_col] -= CELL_MARQUAGE;
-                            mines_restantes++;
-                            String msg = Integer.toString(mines_restantes);
-                            message.setText(msg);
-                        }
-                    }
-
-                } else {
-
-                    if (tableau[(cell_lig * NB_COL) + cell_col] > CELL_MINE_COUV) {
-
-                        return;
-                    }
-
-                    if ((tableau[(cell_lig * NB_COL) + cell_col] > CELL_MINE)
-                            && (tableau[(cell_lig * NB_COL) + cell_col] < CELL_MINE_DRAPEAU)) {
-
-                        tableau[(cell_lig * NB_COL) + cell_col] -= CELL_COUV;
-                        rafraichir = true;
-
-                        if (tableau[(cell_lig * NB_COL) + cell_col] == CELL_MINE) {
-                            en_jeu = false;
-                        }
-
-                        if (tableau[(cell_lig * NB_COL) + cell_col] == CELL_VIDE) {
-                            decouvrir_cases_non_minees((cell_lig * NB_COL) + cell_col);
-                        }
-                    }
-                }
-
-                if (rafraichir) {
-                    repaint();
-                }
-            }
-        }
-    }
-    
-    private class gestion_clic_2D extends MouseAdapter {
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-            /*e est l'évènement : clique gauche / clique droit*/
-
             int x = e.getX() / TAILLE_CELL; /*divise par la taille de la cellule pour savoir dans quelle case on est : en fonction des pixels*/
             int y = e.getY() / TAILLE_CELL;
 
@@ -633,7 +351,7 @@ public class PlateauDeJeu extends javax.swing.JPanel {
                 /*si le joueur a perdu on rejoue*/
 
                 //partie();
-                partie2D();
+                partie();
                 repaint();
             }
 
@@ -641,47 +359,51 @@ public class PlateauDeJeu extends javax.swing.JPanel {
 
                 if (e.getButton() == MouseEvent.BUTTON3) {
 
-                    if (tableau2D[x][y] > CELL_MINE) {
+                    if (tableau[x][y] > CELL_MINE) {
 
                         rafraichir = true;
 
-                        if (tableau2D[x][y] <= CELL_MINE_COUV) {
+                        if (tableau[x][y] <= CELL_MINE_COUV) {
 
                             if (mines_restantes > 0) {
-                                tableau2D[x][y] += CELL_MARQUAGE;
+                                tableau[x][y] += CELL_MARQUAGE;
                                 mines_restantes--;
-                                String msg = Integer.toString(mines_restantes);
+                                String msg = "Mines restantes : " + Integer.toString(mines_restantes) + "   " + "Vies restantes : " + NB_VIE;
                                 message.setText(msg);
                             } else {
                                 message.setText("Tous les drapeaux ont été placés");
                             }
                         } else {
 
-                            tableau2D[x][y] -= CELL_MARQUAGE;
+                            tableau[x][y] -= CELL_MARQUAGE;
                             mines_restantes++;
-                            String msg = Integer.toString(mines_restantes);
+                            String msg = "Mines restantes : " + Integer.toString(mines_restantes) + "   " + "Vies restantes : " + NB_VIE;
                             message.setText(msg);
                         }
                     }
 
                 } else {
+                    message.setText("Mines restantes : " + Integer.toString(mines_restantes) + "   " + "Vies restantes : " + NB_VIE);
 
-                    if (tableau2D[x][y] > CELL_MINE_COUV) {
+                    if (tableau[x][y] > CELL_MINE_COUV) {
 
                         return;
                     }
 
-                    if ((tableau2D[x][y] > CELL_MINE) && (tableau2D[x][y] < CELL_MINE_DRAPEAU)) {
+                    if ((tableau[x][y] > CELL_MINE) && (tableau[x][y] < CELL_MINE_DRAPEAU)) {
 
-                        tableau2D[x][y] -= CELL_COUV;
+                        tableau[x][y] -= CELL_COUV;
                         rafraichir = true;
 
-                        if (tableau2D[x][y] == CELL_MINE) {
-                            en_jeu = false;
+                        if (tableau[x][y] == CELL_MINE) {
+                            NB_VIE -= 1; /*si on clique sur une mine le joueur perd une vie*/
+                            if (NB_VIE == 0){
+                                en_jeu = false;
+                            }
                         }
 
-                        if (tableau2D[x][y] == CELL_VIDE) {
-                            decouvrir_cases_non_minees_2D(x, y);
+                        if (tableau[x][y] == CELL_VIDE) {
+                            decouvrir_cases_non_minees(x, y);
                         }
                     }
                 }
