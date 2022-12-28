@@ -398,6 +398,7 @@ public class PlateauDeJeu extends javax.swing.JPanel {
 
                         if (tableau[x][y] == CELL_MINE) {
                             NB_VIE -= 1; /*si on clique sur une mine le joueur perd une vie*/
+                            message.setText("Mines restantes : " + Integer.toString(mines_restantes) + "   " + "Vies restantes : " + NB_VIE);
                             if (NB_VIE == 0){
                                 en_jeu = false;
                             }
