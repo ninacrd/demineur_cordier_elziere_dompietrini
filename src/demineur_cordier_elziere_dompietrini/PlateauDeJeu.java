@@ -291,12 +291,11 @@ public class PlateauDeJeu extends javax.swing.JPanel {
             for (int y = 0; y < NB_LIG; y++) {
 
                 int cell = tableau[x][y];
-                
-            if (NB_VIE == 0){
-                en_jeu = false;
-            }
+               
                 if (en_jeu && cell == CELL_MINE) {
-                    en_jeu = false;
+                    if (NB_VIE == 0){
+                        en_jeu = false;
+                    } 
                 }
 
                 if (!en_jeu) {
