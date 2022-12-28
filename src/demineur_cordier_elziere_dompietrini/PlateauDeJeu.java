@@ -103,7 +103,7 @@ public class PlateauDeJeu extends javax.swing.JPanel {
 
     public void partie() {
         /*on fait en 2D*/
-
+        NB_VIE = 3;
         int cellule;
 
         var random = new Random();
