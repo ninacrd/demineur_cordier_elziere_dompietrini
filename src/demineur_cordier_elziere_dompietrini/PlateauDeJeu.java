@@ -89,10 +89,10 @@ public class PlateauDeJeu extends javax.swing.JPanel {
             var chemin = "src/images/" + i + ".png";
             img[i] = (new ImageIcon(chemin)).getImage();
         }
-        addMouseListener(new gestion_clic());
-        partie();
-        //addMouseListener(new gestion_clic_2D());
-        //partie2D();
+        //addMouseListener(new gestion_clic());
+        //partie();
+        addMouseListener(new gestion_clic_2D());
+        partie2D();
     }
 
     /*initialisation de la grille avec positionnement des mines*/
@@ -517,8 +517,8 @@ public class PlateauDeJeu extends javax.swing.JPanel {
                     }
                 }
 
-                g.drawImage(img[cell], (y * TAILLE_CELL),
-                        (x * TAILLE_CELL), this);
+                g.drawImage(img[cell], (x * TAILLE_CELL),
+                        (y * TAILLE_CELL), this);
             }
         }
 
