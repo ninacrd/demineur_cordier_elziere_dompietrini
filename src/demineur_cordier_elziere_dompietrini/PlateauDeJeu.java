@@ -45,7 +45,8 @@ public class PlateauDeJeu extends javax.swing.JPanel {
     private final int IMG_MAUVAIS_PLACEMENT = 12;
     /*si le joueur met un drapeau là où il n'y a pas de bombe, cette image apparaitra quand il aura perdu*/
 
-    private int NB_MINES ;
+    //private int NB_MINES ;
+    private final int NB_MINES = 50;
     /*nombre de mines initialisé à 50*/
     private final int NB_LIG = 16;
     /*16 lignes*/
@@ -107,9 +108,9 @@ public class PlateauDeJeu extends javax.swing.JPanel {
         NB_VIE = 3;
         int cellule;
         
-        Scanner saisie_joueur = new Scanner(System.in);
-	System.out.println("Combien de mines voulez-vous placer ?");
-	int NB_MINES = saisie_joueur.nextInt();
+        //Scanner saisie_joueur = new Scanner(System.in);
+	//System.out.println("Combien de mines voulez-vous placer ?");
+	//int NB_MINES = saisie_joueur.nextInt();
         
 
         var random = new Random();
