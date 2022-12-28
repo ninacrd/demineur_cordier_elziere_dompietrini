@@ -66,18 +66,22 @@ public class PlateauDeJeu extends javax.swing.JPanel {
 
     private int nb_cellules;
     /*nombre de cellules totales*/
-    private final JLabel message;
+    private JLabel message;
     private Image[] img;
 
     /**
      * Creates new form PlateauDeJeu
      */
     public PlateauDeJeu() {
-        initComponents();
         this.message = new JLabel();
+        initComponents();
         initialisation();
     }
 
+    public void setmessage(JLabel message){ /*on crée un setter pour pouvoir ajouter les messages au design*/
+        this.message = message;
+    }
+    
     private void initialisation() {
 
         setPreferredSize(new Dimension(LARGEUR, HAUTEUR));

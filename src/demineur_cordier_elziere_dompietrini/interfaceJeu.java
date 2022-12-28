@@ -4,21 +4,20 @@
  */
 package demineur_cordier_elziere_dompietrini;
 
+import javax.swing.JLabel;
+
 /**
  *
  * @author Nina
  */
 public class interfaceJeu extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form interfaceJeu
      */
     public interfaceJeu() {
-        //initComponents();
-        add(new PlateauDeJeu());
-        setTitle("DEMINEUR");
-        setResizable(false);
-        pack();
+        initComponents();
+        //add(new PlateauDeJeu());
     }
 
     /**
@@ -30,17 +29,48 @@ public class interfaceJeu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        message = new javax.swing.JLabel();
+        plateau = new demineur_cordier_elziere_dompietrini.PlateauDeJeu();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        message.setText(" ");
+
+        plateau.setmessage(message);
+
+        javax.swing.GroupLayout plateauLayout = new javax.swing.GroupLayout(plateau);
+        plateau.setLayout(plateauLayout);
+        plateauLayout.setHorizontalGroup(
+            plateauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 451, Short.MAX_VALUE)
+        );
+        plateauLayout.setVerticalGroup(
+            plateauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 241, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 644, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(176, 176, 176)
+                        .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(97, 97, 97)
+                        .addComponent(plateau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(96, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 516, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(126, Short.MAX_VALUE)
+                .addComponent(plateau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(87, 87, 87)
+                .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -82,5 +112,7 @@ public class interfaceJeu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel message;
+    private demineur_cordier_elziere_dompietrini.PlateauDeJeu plateau;
     // End of variables declaration//GEN-END:variables
 }
