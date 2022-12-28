@@ -33,6 +33,7 @@ public class interfaceJeu extends javax.swing.JFrame {
         plateau = new demineur_cordier_elziere_dompietrini.PlateauDeJeu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("DEMINEUR");
 
         message.setText(" ");
 
