@@ -33,14 +33,15 @@ public class interfaceJeu extends javax.swing.JFrame {
 
         message = new javax.swing.JLabel();
         plateau = new demineur_cordier_elziere_dompietrini.PlateauDeJeu();
+        nb_mines = new javax.swing.JTextField();
+        lancer = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("DEMINEUR");
 
         message.setText(" ");
 
-        plateau.setmessage(message);
-        plateau.partie();
+        plateau.setVisible(false);
 
         javax.swing.GroupLayout plateauLayout = new javax.swing.GroupLayout(plateau);
         plateau.setLayout(plateauLayout);
@@ -53,6 +54,13 @@ public class interfaceJeu extends javax.swing.JFrame {
             .addGap(0, 241, Short.MAX_VALUE)
         );
 
+        lancer.setText("LANCER");
+        lancer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lancerActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -62,14 +70,25 @@ public class interfaceJeu extends javax.swing.JFrame {
                 .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(82, 82, 82))
             .addGroup(layout.createSequentialGroup()
-                .addGap(52, 52, 52)
-                .addComponent(plateau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(plateau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(99, 99, 99)
+                        .addComponent(nb_mines, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lancer, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(50, Short.MAX_VALUE)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nb_mines, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                    .addComponent(lancer))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(plateau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -78,6 +97,17 @@ public class interfaceJeu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void lancerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lancerActionPerformed
+        // TODO add your handling code here:
+        int nombre_mines = Integer.parseInt(nb_mines.getText());
+        plateau.setmessage(message);
+        plateau.setnb_mines(nombre_mines);
+        plateau.partie();
+        plateau.setVisible(true);
+        plateau.repaint();
+        //lancer.setEnabled(false);
+    }//GEN-LAST:event_lancerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -115,7 +145,9 @@ public class interfaceJeu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton lancer;
     private javax.swing.JLabel message;
+    private javax.swing.JTextField nb_mines;
     private demineur_cordier_elziere_dompietrini.PlateauDeJeu plateau;
     // End of variables declaration//GEN-END:variables
 }
