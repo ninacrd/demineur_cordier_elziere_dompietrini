@@ -13,6 +13,7 @@ import java.util.Random;
 import java.util.Scanner;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 /**
  *
@@ -69,6 +70,7 @@ public class PlateauDeJeu extends javax.swing.JPanel {
     private int nb_cellules;
     /*nombre de cellules totales*/
     private JLabel message;
+    //private JTextField nb_mines;
     private Image[] img;
 
     /**
@@ -83,6 +85,7 @@ public class PlateauDeJeu extends javax.swing.JPanel {
     public void setmessage(JLabel message){ /*on crée un setter pour pouvoir ajouter les messages au design*/
         this.message = message;
     }
+   
     
     private void initialisation() {
 
@@ -108,11 +111,6 @@ public class PlateauDeJeu extends javax.swing.JPanel {
         NB_VIE = 3;
         int cellule;
         
-        //Scanner saisie_joueur = new Scanner(System.in);
-	//System.out.println("Combien de mines voulez-vous placer ?");
-	//int NB_MINES = saisie_joueur.nextInt();
-        
-
         var random = new Random();
         en_jeu = true;
         /*tant que le joueur n'a pas gagné*/
@@ -128,6 +126,10 @@ public class PlateauDeJeu extends javax.swing.JPanel {
             }
         }
          
+        //message.setText("Combien de mines voulez-vous placer ?");
+        //String a = nb_mines.getText();
+        //int NB_MINES = Integer.parseInt(a);
+        //System.out.println(NB_MINES);
         
         message.setText("Mines restantes : " + Integer.toString(mines_restantes) + "   " + "Vies restantes : " + NB_VIE);
         
