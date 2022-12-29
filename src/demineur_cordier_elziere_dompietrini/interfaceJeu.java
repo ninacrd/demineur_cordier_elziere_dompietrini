@@ -33,8 +33,9 @@ public class interfaceJeu extends javax.swing.JFrame {
 
         message = new javax.swing.JLabel();
         plateau = new demineur_cordier_elziere_dompietrini.PlateauDeJeu();
-        nb_mines = new javax.swing.JTextField();
         lancer = new javax.swing.JButton();
+        nb_mines = new javax.swing.JSpinner();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("DEMINEUR");
@@ -57,7 +58,6 @@ public class interfaceJeu extends javax.swing.JFrame {
         );
 
         getContentPane().add(plateau, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 470, -1));
-        getContentPane().add(nb_mines, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 261, 28));
 
         lancer.setText("LANCER");
         lancer.addActionListener(new java.awt.event.ActionListener() {
@@ -65,14 +65,21 @@ public class interfaceJeu extends javax.swing.JFrame {
                 lancerActionPerformed(evt);
             }
         });
-        getContentPane().add(lancer, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 10, 95, -1));
+        getContentPane().add(lancer, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 100, 30));
+
+        nb_mines.setModel(new javax.swing.SpinnerNumberModel(50, 10, 100, 1));
+        nb_mines.setRequestFocusEnabled(false);
+        getContentPane().add(nb_mines, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 60, 30));
+
+        jLabel1.setText("Combien de mines voulez vous poser ?");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 220, 30));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void lancerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lancerActionPerformed
         // TODO add your handling code here:
-        int nombre_mines = Integer.parseInt(nb_mines.getText());
+        int nombre_mines = (Integer) nb_mines.getValue();
         plateau.setmessage(message);
         plateau.setnb_mines(nombre_mines);
         plateau.partie();
@@ -117,9 +124,10 @@ public class interfaceJeu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JButton lancer;
     private javax.swing.JLabel message;
-    private javax.swing.JTextField nb_mines;
+    private javax.swing.JSpinner nb_mines;
     private demineur_cordier_elziere_dompietrini.PlateauDeJeu plateau;
     // End of variables declaration//GEN-END:variables
 }
